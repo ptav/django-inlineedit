@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+recursive-include docs *
+recursive-include inlineedit/templates *
+recursive-include inlineedit/templatetags *
+recursive-include inlineedit/static *
+recursive-include inlineedit/migrations *
