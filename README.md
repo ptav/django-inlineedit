@@ -2,6 +2,7 @@
 
 Inline editing for Django models
 
+
 ## Installation
 
 1. Use pip to instal the latest stable release
@@ -14,7 +15,6 @@ Inline editing for Django models
 2. Add `inlineedit` to `INSTALLED_APPS` in the project settings (see dependencies below)
 
 3. Add `path('inlineedit/', include('inlineedit.urls'))` to the base URLs
-
 
 
 ### Quickstart
@@ -43,14 +43,14 @@ Further arguments are passed on to the chosen adaptor.
 
 ### Creating a Bespoke Adaptor
 
-
+[TBC]
 
 
 ### Dependencies:
 
 Required jquery 3.3.1 or higher installed.
 
-Django-inlineedit can also work with django-reversions, django-ckeditor and markdown if these are installed. No configuration is required to enable these libraries as jdnafo-inlineedit will test for their existance. 
+Django-inlineedit can also work with django-reversions, django-ckeditor and markdown if these are installed. No configuration is required to enable these libraries as django-inlineedit will test for their existance.
 
 
 
