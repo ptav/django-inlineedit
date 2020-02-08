@@ -39,13 +39,11 @@ def inlineedit_form_submit(request):
     field = obj._meta.get_field(field_name)
     ac = adaptor_factory(obj, field, strip[4])
     field_value = ac.value()
-    field_type = ac.format()
 
     out = {
         'success': True,
-        'uuid': id,
         'value': field_value,
-        'type': field_type,
+        'uuid': id,
     }
 
     return JsonResponse(out)

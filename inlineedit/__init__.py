@@ -74,10 +74,7 @@ class BaseAdaptor(object):
 
     def empty_message(self):
         field_instance = self.FIELD.formfield()
-        return "Hover to add {}".format(field_instance.label)
-
-    def format(self):
-        return 'text'
+        return '<span style="opacity:0.5;">Hover to add {}</span>'.format(field_instance.label)
 
 
 class MarkdownAdaptor(BaseAdaptor):
@@ -103,9 +100,6 @@ class CKEditorAdaptor(BaseAdaptor):
         out = getattr(self.MODEL, self.FIELD.attname)
         if out == "": out = self.empty_message()
         return format_html(out)
-
-    def format(self):
-        return 'html'
 
 
 # List of builtin adaptors

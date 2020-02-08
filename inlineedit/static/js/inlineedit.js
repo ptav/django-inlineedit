@@ -8,6 +8,8 @@ $(function() {
     $(".inlineedit-toggle").hide();
 });
 
+
+// Mouse enters toggle area
 $(".inlineedit-toggle-area").mouseenter(
     function() {
         var id = $(this).attr("id");
@@ -15,6 +17,8 @@ $(".inlineedit-toggle-area").mouseenter(
     }
 );
 
+
+// Mouse leaves toggle area
 $(".inlineedit-toggle-area").mouseleave(
     function() {
         var id = $(this).attr("id");
@@ -22,6 +26,8 @@ $(".inlineedit-toggle-area").mouseleave(
     }
 );
 
+
+// Click in edit icon (toggles field editor on)
 $(".inlineedit-toggle").click(
     function() {
         var id = $(this).attr("id");
@@ -31,7 +37,8 @@ $(".inlineedit-toggle").click(
     }
 );
 
-// Exit form editing
+
+// Cancel editing
 function inlineedit_exit_editing(object) {
     var id = $(object).closest('form').attr('id');
     $(".inlineedit-form#" + id).hide();
@@ -60,15 +67,12 @@ $('.inlineedit-form').on('submit', function(event)
 
     $.ajax(param).done(
         function(response) {
+            if (response.success) {
+                $(".inlineedit-value#" + response.uuid).html(response.value)
+            }
+
             $(".inlineedit-form#" + response.uuid).hide();
             $(".inlineedit-value#" + response.uuid).show();
-            if (response.success) {
-                if (response.format == 'html') {
-                    $(".inlineedit-value#" + response.uuid).html(response.value)
-                } else {
-                    $(".inlineedit-value#" + response.uuid).text(response.value)
-                }
-            }
         }
     );
 });
