@@ -33,7 +33,9 @@ to add inline editing to a field, you use the `inlineedit` template tag. For exa
 
 This will add the HTML and JS necessary to edit `my_field` in object `my_object`. without any further configuration, the tag will display the field and show the editing link when the mouse hover over the field. A single click will open up an editing element and accept/reject buttons. Click the former to accept any changes and the latter to cancel those.
 
-The `inlineedit` tag has one further optional argument, the adaptor name, which changes the behaviour of the field display and editor. A number of adaptors are provided with the library, namely `markdown` and `ckeditor`. These require the respective libraries to be available but otherwise behave as expected. For example, the following will convert a markdown field into HTML:
+The `inlineedit` tag has one further optional argument, the adaptor name, which changes the behaviour of the field display and editor. A number of adaptors are provided with the library, namely `markdown` and `ckeditor`. These require the respective libraries to be available but otherwise behave as expected.
+
+For example, the following will convert a markdown field into HTML:
 
     {% inlineedit "my_object.my_markdown_field" "markdown" %}
 
