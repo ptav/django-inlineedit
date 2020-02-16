@@ -1,0 +1,65 @@
+<script src="https://code.jquery.com/jquery.js"></script>
+<script type="text/javascript">
+    // Mouse enters toggle area
+    $(".inlineedit-toggle-area").mouseenter(
+        function() {
+            const id = $(this).attr("data-field-id");
+            $("#inlineedit-toggle-" + id).show();
+        }
+    );
+
+
+    // Mouse leaves toggle area
+    $(".inlineedit-toggle-area").mouseleave(
+        function() {
+            const id = $(this).attr("data-field-id");
+            $("#inlineedit-toggle-" + id).fadeOut(500);
+        }
+    );
+
+
+    // Click in edit icon (toggles field editor on)
+    $(".inlineedit-toggle").click(
+        function() {
+            const id = $(this).attr("data-field-id");
+            $("#inlineedit-value-" + id).hide();
+            $("#inlineedit-toggle-" + id).hide();
+            $("#inlineedit-form-" + id).show();
+        }
+    );
+
+
+    // Cancel editing
+    function inlineedit_exit_editing(object) {
+        const id = $(object).closest('form').attr('data-field-id');
+        $("#inlineedit-form-" + id).hide();
+        $("#inlineedit-value-" + id).show();
+    }
+
+    // Override form submit action to prevent page refresh
+    $('.inlineedit-form').on('submit', function(event)
+    {
+        const id = $(this).attr("data-field-id");
+        event.preventDefault(); //prevent default action
+        let url = $(this).attr("action"); //get form action url
+        if (!url || url.length < 3) {
+            url = "{{ inlineedit_endpoint }}";
+        }
+
+        const param = {
+            url: url,
+            type: $(this).attr("method"), // GET/POST method
+            data: new FormData(this), // Serialised form data
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(response) {
+                $("#inlineedit-value-" + id).text(response.value);
+                $("#inlineedit-form-" + id).hide();
+                $("#inlineedit-value-" + id).show();
+            }
+        };
+
+        $.ajax(param);
+    });
+</script>
