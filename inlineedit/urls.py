@@ -5,5 +5,5 @@ from . import views
 app_name = 'inlineedit'
 
 urlpatterns = [
-    path('inlineedit_form_submit/', views.inlineedit_form_submit),
+    path('', views.inlineedit_form_submit, name="inlineedit"),
 ]
