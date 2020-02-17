@@ -6,8 +6,14 @@ Inline editing for Django models
 ## Installation
 
 1. Use pip to install the latest stable release
-    pip install django-inlineedit
-
+    
+    `pip install django-inlineedit`
+   
+   OR
+   
+   Run the following command inside the top-level cloned repository:
+   
+   'easy_install .'
 2. Add `inlineedit` to `INSTALLED_APPS` in the project settings (see dependencies below)
 
 3. Add `path(<url for form submission>, include('inlineedit.urls'))` to the base URLs
@@ -42,6 +48,11 @@ Required jquery 3.3.1 or higher installed.
     No configuration is needed, django-inlineedit will simply use django-reversion as long 
     as your models are decorated with @reversion.register()
 
+## Running examples
+
+1. cd into the root directory of the example you want to run (under the examples folder)
+2. run `python3 manage.py migrate` to setup a local sqlite3 database.
+3. run `python3 manage.py runserver` to start a local development server for the example.
 
 ## Open source licenses
 

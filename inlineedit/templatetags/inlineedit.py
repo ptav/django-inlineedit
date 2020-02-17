@@ -38,7 +38,7 @@ def inlineedit(context, arg):
         field = inline_adaptor.form_field
 
     # Field attribute must be added dynamically so that each
-    # has a different HTML 'id' (relevant for CKEditor for example)
+    # has a different HTML 'id' (relevant for CKEditor for django_reversion_example)
 
     form = _InlineeditForm({
         'field': inline_adaptor.field_value,
@@ -47,6 +47,7 @@ def inlineedit(context, arg):
     )
 
     return {
+        'field_name': field_name,
         'form': form,
         'value': inline_adaptor.field_value,
         'uuid': uuid

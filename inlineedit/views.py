@@ -41,6 +41,7 @@ def inlineedit_form_submit(request: HttpRequest) -> JsonResponse:
     inline_adaptor.field_value = field_value
 
     out = {
+        'field_name': field_name,
         'value': field_value,
         'uuid': field_uuid
     }

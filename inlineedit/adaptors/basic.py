@@ -35,8 +35,6 @@ class InlineFieldAdaptor:
         if self._field.choices:
             value_display_mapping = dict(self._field.choices)
             return value_display_mapping.get(db_value)
-        elif not db_value:
-            return '<span style="opacity:0.5;">Hover to add {}</span>'.format(self._field.attname)
         return db_value
 
     @field_value.setter
@@ -49,3 +47,7 @@ class InlineFieldAdaptor:
                     reversion.set_user(self._user)
         else:
             self._model.save()
+
+    @property
+    def field_name(self) -> str:
+        return self._field.verbose_name

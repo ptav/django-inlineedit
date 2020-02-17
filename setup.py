@@ -32,5 +32,6 @@ setup(
     ],
     install_requires=[
         'django'
-    ]
+    ],
+    zip_safe=False
 )

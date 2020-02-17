@@ -54,7 +54,15 @@
             cache: false,
             processData: false,
             success: function(response) {
-                $("#inlineedit-value-" + id).text(response.value);
+                if (response.value !== null)
+                {
+                    $("#inlineedit-value-" + id).text(response.value);
+                    $("#inlineedit-value-" + id).attr("class", "inlineedit-value");
+                }
+                else {
+                    $("#inlineedit-value-" + id).text("Add ${response.field_name}...");
+                    $("#inlineedit-value-" + id).attr("class", "inlineedit-value-transparent");
+                }
                 $("#inlineedit-form-" + id).hide();
                 $("#inlineedit-value-" + id).show();
             }

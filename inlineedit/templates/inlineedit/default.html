@@ -1,9 +1,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+<style>
+    .inlineedit-value-transparent {
+        opacity: 0.5;
+    }
+</style>
 <div class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
+    {% if value is not None %}
     <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
-        {{ value }}
+          {{ value }}
     </span>
+    {% else %}
+    <span class="inlineedit-value-transparent" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">Add {{ field_name }}...</span>
+    {% endif %}
 
     <span class="inlineedit-toggle" id="inlineedit-toggle-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true">
         <i class="fa fa-edit"></i>
