@@ -1,50 +1,54 @@
-from django import template, forms
+from inlineedit.adaptors.basic import InlineFieldAdaptor
+from django.template.library import Library
+from django.template.exceptions import TemplateSyntaxError
+from django.db.models import Model as DjangoModel, Field as DjangoField
+from django.forms import Form as DjangoForm
+from django.forms.widgets import HiddenInput
+from django.forms import fields
 
-from .. import adaptor_factory
-
-
-register = template.Library()
+register = Library()
 
 
 @register.inclusion_tag('inlineedit/default.html', takes_context=True)
-def inlineedit(context, arg, *args, **kwargs):
-    "Render editable field"
-    strip = arg.split('.')
-    if len(strip) < 2:
-        raise template.exceptions.TemplateSyntaxError("inlineedit invalid argument \"{}\": must be of the form \"model.field\"".format(arg))
+def inlineedit(context, arg):
+    try:
+        model_name, field_name = tuple(arg.split('.'))
+    except ValueError:
+        raise TemplateSyntaxError('inlineedit invalid argument '
+                                  '"{}": must be of the form '
+                                  '"model.field"'.format(arg))
 
-    model_name = strip[0]
-    field_name = strip[1]
+    object_model: DjangoModel = context[model_name]
+    # noinspection PyProtectedMember
+    field: DjangoField = object_model._meta.get_field(field_name)
 
-    obj = context[model_name]
-    fld = obj._meta.get_field(field_name)
+    inline_adaptor = InlineFieldAdaptor(object_model, field)
 
-    ac = adaptor_factory(obj, fld, *args, **kwargs)
-    field_render = ac.value()
-
-    adaptor = args[0] if len(args) else None
-
-    uuid = 'hash' + str(hash(arg)) # must be string to avoid localisation #uuid1().hex
+    uuid = str(hash(arg))
+    # noinspection PyProtectedMember
     context.request.session[uuid] = "{}.{}.{}.{}".format(
-        obj._meta.label,
-        fld.attname,
-        obj.pk,
-        adaptor)
+        object_model._meta.app_label,
+        model_name,
+        field_name,
+        object_model.pk
+    )
 
-    class AuxForm(forms.Form):
-        id = forms.CharField(max_length=32, widget=forms.HiddenInput())
-        field = ac.formfield()
+    class _InlineeditForm(DjangoForm):
+        id = fields.CharField(max_length=32, widget=HiddenInput())
+        field = inline_adaptor.form_field
 
     # Field attribute must be added dynamically so that each
-    # has a different HTML 'id' (relevant for CKEditor for example)
+    # has a different HTML 'id' (relevant for CKEditor for django_reversion_example)
 
-    form = AuxForm({
-        'field': getattr(obj, field_name),
+    form = _InlineeditForm({
+        'field': inline_adaptor.field_value,
         'id': uuid},
-        auto_id=arg.replace('.','__') + '__%s')
+        auto_id=arg.replace('.', '__') + '__%s'
+    )
 
     return {
+        'field_name': field_name,
         'form': form,
-        'value': field_render,
-        'uuid': uuid,
+        'value': inline_adaptor.field_value,
+        'uuid': uuid
     }

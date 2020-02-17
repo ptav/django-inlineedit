@@ -5,23 +5,28 @@ Inline editing for Django models
 
 ## Installation
 
-1. Use pip to instal the latest stable release
-
-    pip install django-inlineedit
-
-    You can also install a local copy by running `setup.py install` at the top directory of django-copy
-
-
+1. Use pip to install the latest stable release
+    
+    `pip install django-inlineedit`
+   
+   OR
+   
+   Run the following command inside the top-level cloned repository:
+   
+   'easy_install .'
 2. Add `inlineedit` to `INSTALLED_APPS` in the project settings (see dependencies below)
 
-3. Add `path('inlineedit/', include('inlineedit.urls'))` to the base URLs
+3. Add `path(<url for form submission>, include('inlineedit.urls'))` to the base URLs
+
+    django-inlineedit will use any URL you specify, make sure it does not conflict with
+    existing URLs in your app!
 
 
 ## Quickstart
 
 In your templates add the django-inlineedit JS in a suitable location (for example at the bottom of the template `<body>`):
-
-    <script type="text/javascript" src="/static/js/inlineedit.js"></script>
+    {% load inlineedit_default_script %}
+    {% inlineedit_default_script %}
 
 Then load the template tags with:
 
@@ -33,28 +38,21 @@ to add inline editing to a field, you use the `inlineedit` template tag. For exa
 
 This will add the HTML and JS necessary to edit `my_field` in object `my_object`. without any further configuration, the tag will display the field and show the editing link when the mouse hover over the field. A single click will open up an editing element and accept/reject buttons. Click the former to accept any changes and the latter to cancel those.
 
-The `inlineedit` tag has one further optional argument, the adaptor name, which changes the behaviour of the field display and editor. A number of adaptors are provided with the library, namely `markdown` and `ckeditor`. These require the respective libraries to be available but otherwise behave as expected.
-
-For example, the following will convert a markdown field into HTML:
-
-    {% inlineedit "my_object.my_markdown_field" "markdown" %}
-
-
-Further arguments are passed on to the chosen adaptor.
-
-
-## Creating a Bespoke Adaptor
-
-[TBC]
-
-
 ## Dependencies:
 
 Required jquery 3.3.1 or higher installed.
 
-Django-inlineedit can also work with django-reversions, django-ckeditor and markdown if these are installed. No configuration is required to enable these libraries as django-inlineedit will test for their existance.
+## Support for integration with other libraries:
+1. django-reversions
+    
+    No configuration is needed, django-inlineedit will simply use django-reversion as long 
+    as your models are decorated with @reversion.register()
 
+## Running examples
 
+1. cd into the root directory of the example you want to run (under the examples folder)
+2. run `python3 manage.py migrate` to setup a local sqlite3 database.
+3. run `python3 manage.py runserver` to start a local development server for the example.
 
 ## Open source licenses
 
