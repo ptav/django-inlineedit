@@ -10,6 +10,9 @@ except ImportError:
 
 
 class InlineFieldAdaptor:
+    DISPLAY_TYPE = "text"
+    ADAPTOR_NAME = "basic"
+
     def __init__(
             self,
             model_object: DjangoModel,

@@ -7,10 +7,12 @@
 <div class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
     {% if value is not None %}
     <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
-          {{ value }}
+          {{ value | safe }}
     </span>
     {% else %}
-    <span class="inlineedit-value-transparent" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">Add {{ field_name }}...</span>
+    <span class="inlineedit-value-transparent" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
+        Add {{ field_name }}...
+    </span>
     {% endif %}
 
     <span class="inlineedit-toggle" id="inlineedit-toggle-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true">
@@ -18,7 +20,7 @@
     </span>
 </div>
 
-<form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true">
+<form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true" adaptor="{{ adaptor }}">
     {% csrf_token %}
 
     <span style="color:red;">{{ form.non_field_errors }}</span>
