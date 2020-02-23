@@ -11,7 +11,7 @@ register = Library()
 
 
 @register.inclusion_tag('inlineedit/default.html', takes_context=True)
-def inlineedit(context, field_info, adaptor="basic"):
+def inlineedit(context, field_info, adaptor="basic", *args):
     try:
         model_name, field_name = tuple(field_info.split('.'))
     except ValueError:
@@ -26,7 +26,10 @@ def inlineedit(context, field_info, adaptor="basic"):
     if adaptor == "basic":
         inline_adaptor = InlineFieldAdaptor(object_model, field)
     elif adaptor == "ckeditor":
-        inline_adaptor = CKEditorFieldAdaptor(object_model, field)
+        if not args:
+            inline_adaptor = CKEditorFieldAdaptor(object_model, field)
+        else:
+            inline_adaptor = CKEditorFieldAdaptor(object_model, field, ckeditor_config=args[0])
     else:
         raise ValueError("Received adaptor type: '{}', supported adaptors are 'basic', 'ckeditor'")
 

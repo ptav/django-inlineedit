@@ -11,3 +11,4 @@ class Person(models.Model):
     ], max_length=30, default="User", verbose_name="account type")
     user_age = models.IntegerField(null=True, verbose_name="age")
     user_description = RichTextField(null=True, verbose_name="description")
+    custom_styling_user_description = RichTextField(null=True, verbose_name="description")

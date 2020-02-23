@@ -5,7 +5,7 @@
     }
 </style>
 <div class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
-    {% if value is not None %}
+    {% if value is not None and value != "" %}
     <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
           {{ value | safe }}
     </span>
