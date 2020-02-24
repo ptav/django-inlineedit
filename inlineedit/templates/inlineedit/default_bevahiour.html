@@ -46,6 +46,11 @@
             url = "{{ inlineedit_endpoint }}";
         }
 
+        if ($(this).attr("adaptor") === "ckeditor") {
+            for ( instance in CKEDITOR.instances )
+                CKEDITOR.instances[instance].updateElement();
+        }
+
         const param = {
             url: url,
             type: $(this).attr("method"), // GET/POST method
@@ -54,13 +59,19 @@
             cache: false,
             processData: false,
             success: function(response) {
-                if (response.value !== null)
+                if (response.value !== null && response.value !== "")
                 {
-                    $("#inlineedit-value-" + id).text(response.value);
+                    if (response.display_type === "text") {
+                        $("#inlineedit-value-" + id).text(response.value);
+                    }
+                    else {
+                        console.log(response.value);
+                        $("#inlineedit-value-" + id).html(response.value);
+                    }
                     $("#inlineedit-value-" + id).attr("class", "inlineedit-value");
                 }
                 else {
-                    $("#inlineedit-value-" + id).text("Add ${response.field_name}...");
+                    $("#inlineedit-value-" + id).text(`Add ${response.field_name}...`);
                     $("#inlineedit-value-" + id).attr("class", "inlineedit-value-transparent");
                 }
                 $("#inlineedit-form-" + id).hide();
