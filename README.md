@@ -42,11 +42,31 @@ This will add the HTML and JS necessary to edit `my_field` in object `my_object`
 
 Required jquery 3.3.1 or higher installed.
 
-## Support for integration with other libraries:
+
+### Support for integration with other libraries (optional)
+
 1. django-reversions
     
     No configuration is needed, django-inlineedit will simply use django-reversion as long 
     as your models are decorated with @reversion.register()
+
+2. Django-CKEditor
+
+    Version 5.9.0 or higher is required for the CKEditor adaptor to work. for example:
+
+        {% inlineedit "my_object.my_field" "ckeditor" %}
+
+    Or
+
+        {% inlineedit "my_object.my_field" "ckeditor" "toolbar" %}
+
+
+2. Markdown
+
+    The Python library Markdown is required for the adaptor to work
+
+        {% inlineedit "my_object.my_field" "markdown" %}
+
 
 ## Running examples
 
@@ -54,10 +74,9 @@ Required jquery 3.3.1 or higher installed.
 2. run `python3 manage.py migrate` to setup a local sqlite3 database.
 3. run `python3 manage.py runserver` to start a local development server for the example.
 
+
 ## Open source licenses
 
 This product depends on the following software and media packages
-
-Font Awesome fonts version 4.7 is licensed under [SIL OFL 1.1](http://scripts.sil.org/OFL) and the [MIT License](http://opensource.org/licenses/mit-license.html)
 
 Bootstrap version 4.0 is licensed under the [MIT License](http://opensource.org/licenses/mit-license.html)
