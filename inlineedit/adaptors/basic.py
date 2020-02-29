@@ -38,9 +38,10 @@ class InlineFieldAdaptor:
     def field_value(self) -> str:
         db_value = getattr(self._model, self._field.attname)
 
-        if self._field.choices:
-            return dict(self._field.choices).get(db_value,"--")
-        elif self.DISPLAY_TYPE == "html":
+        if self._field.choices: # convert to external representation
+            db_value = dict(self._field.choices).get(db_value,"--")
+        
+        if self.DISPLAY_TYPE == "html":
             return format_html(db_value)
         else:
             return db_value
