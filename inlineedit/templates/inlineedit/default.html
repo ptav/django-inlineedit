@@ -1,13 +1,13 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
     .inlineedit-value-transparent {
         opacity: 0.5;
     }
 </style>
-<div class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
+
+<span class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
     {% if value is not None and value != "" %}
     <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
-          {{ value | safe }}
+          {{ value }}
     </span>
     {% else %}
     <span class="inlineedit-value-transparent" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
@@ -18,7 +18,7 @@
     <span class="inlineedit-toggle" id="inlineedit-toggle-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true">
         <small>&#9998;</small>
     </span>
-</div>
+</span>
 
 <form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true" adaptor="{{ adaptor }}">
     {% csrf_token %}

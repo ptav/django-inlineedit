@@ -1,7 +1,9 @@
 from django.db.models import Model as DjangoModel, Field as DjangoField
 from django.forms import Field as DjangoFormField
 from django.contrib.auth.models import User, AnonymousUser
+from django.utils.html import format_html
 from typing import Union, Optional
+
 try:
     import reversion
     _reversion_installed = True
@@ -17,11 +19,11 @@ class InlineFieldAdaptor:
             self,
             model_object: DjangoModel,
             field: DjangoField,
-            user_object: Optional[Union[User, AnonymousUser]] = None
+            user: Optional[Union[User, AnonymousUser]] = None
     ):
         self._model: DjangoModel = model_object
         self._field = field
-        self._user = user_object
+        self._user = user
 
         if _reversion_installed:
             self._reversion_enabled = True
@@ -35,10 +37,13 @@ class InlineFieldAdaptor:
     @property
     def field_value(self) -> str:
         db_value = getattr(self._model, self._field.attname)
+
         if self._field.choices:
-            value_display_mapping = dict(self._field.choices)
-            return value_display_mapping.get(db_value)
-        return db_value
+            return dict(self._field.choices).get(db_value,"--")
+        elif self.DISPLAY_TYPE == "html":
+            return format_html(db_value)
+        else:
+            return db_value
 
     @field_value.setter
     def field_value(self, value: str):

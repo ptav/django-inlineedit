@@ -11,11 +11,11 @@
         {% inlineedit "object.name" %}
     </h1>
     
-    <p>
-        Approved: {% inlineedit "object.approved" %}
-        Category: {% inlineedit "object.category" %}
-        Age: {% inlineedit "object.age" %}
-    </p>
+    <table>
+        <tr><th>Approved:</th><td>{% inlineedit "object.approved" %}</td></tr>
+        <tr><th>Category:</th><td>{% inlineedit "object.category" %}</td></tr>
+        <tr><th>Age:</th><td>{% inlineedit "object.age" %}</td></tr>
+    </table>
 
     <h2>Markdown</h2>
     <p>{% inlineedit "object.notes" "markdown" %}</p>
