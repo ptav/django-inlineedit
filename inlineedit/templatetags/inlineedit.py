@@ -1,5 +1,3 @@
-from inlineedit.adaptors.basic import InlineFieldAdaptor
-from inlineedit.adaptors.ckeditor import CKEditorFieldAdaptor
 from django.template.library import Library
 from django.template.exceptions import TemplateSyntaxError
 from django.db.models import Model as DjangoModel, Field as DjangoField
@@ -7,36 +5,34 @@ from django.forms import Form as DjangoForm
 from django.forms.widgets import HiddenInput
 from django.forms import fields
 
+from ..adaptors.selector import get_adaptor_class
+
+
 register = Library()
 
 
 @register.inclusion_tag('inlineedit/default.html', takes_context=True)
 def inlineedit(context, field_info, adaptor="basic", *args):
     try:
-        model_name, field_name = tuple(field_info.split('.'))
+        object_name, field_name = tuple(field_info.split('.'))
     except ValueError:
         raise TemplateSyntaxError('inlineedit invalid argument '
                                   '"{}": must be of the form '
                                   '"model.field"'.format(field_info))
 
-    object_model: DjangoModel = context[model_name]
+    object_model: DjangoModel = context[object_name]
+    model_name = object_model._meta.label
+
     # noinspection PyProtectedMember
     field: DjangoField = object_model._meta.get_field(field_name)
 
-    if adaptor == "basic":
-        inline_adaptor = InlineFieldAdaptor(object_model, field)
-    elif adaptor == "ckeditor":
-        if not args:
-            inline_adaptor = CKEditorFieldAdaptor(object_model, field)
-        else:
-            inline_adaptor = CKEditorFieldAdaptor(object_model, field, ckeditor_config=args[0])
-    else:
-        raise ValueError("Received adaptor type: '{}', supported adaptors are 'basic', 'ckeditor'")
+    adaptor_class = get_adaptor_class(adaptor)
+    inline_adaptor = adaptor_class(object_model, field, *args)
 
     uuid = str(hash(field_info))
+    
     # noinspection PyProtectedMember
-    context.request.session[uuid] = "{}.{}.{}.{}.{}".format(
-        object_model._meta.app_label,
+    context.request.session[uuid] = "{}.{}.{}.{}".format(
         model_name,
         field_name,
         object_model.pk,
