@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load inlineedit %}
+    {% load inlineedit_default_script %}
+    <meta charset="UTF-8">
+    <title>Django Inline Edit</title>
+</head>
+<body>
+    <h1>
+        {% inlineedit "object.name" %}
+    </h1>
+    
+    <p>
+        Approved: {% inlineedit "object.approved" %}
+        Category: {% inlineedit "object.category" %}
+        Age: {% inlineedit "object.age" %}
+    </p>
+
+    <h2>Markdown</h2>
+    <p>{% inlineedit "object.notes" "markdown" %}</p>
+
+    <h2>CKEditor</h2>
+
+    <h3>Implicit (RichtextField)</h3>
+    <p>{% inlineedit "object.description_implicit" %}</p>
+
+    <h3>Explicit</h3>
+    <p>{% inlineedit "object.description_explicit" "ckeditor" %}</p>
+
+    <h3>Set Toolbar</h3>
+    <p>{% inlineedit "object.description_toolbar" "ckeditor" "empty_toolbar" %}</p>
+
+    {% inlineedit_default_script %}
+</body>
+</html>
