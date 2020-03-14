@@ -4,21 +4,21 @@
     }
 </style>
 
-<span class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
-    {% if value is not None and value != "" %}
-    <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
-          {{ value }}
+<div class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
+    {% if empty_message %}
+    <span class="inlineedit-value-transparent" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
+        {{ empty_message }}
     </span>
     {% else %}
-    <span class="inlineedit-value-transparent" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
-        Add {{ field_name }}...
+    <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
+          {{ value }}
     </span>
     {% endif %}
 
     <span class="inlineedit-toggle" id="inlineedit-toggle-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true">
         <small>&#9998;</small>
     </span>
-</span>
+</div>
 
 <form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true" adaptor="{{ adaptor }}">
     {% csrf_token %}

@@ -47,7 +47,7 @@
         }
 
         if ($(this).attr("adaptor") === "ckeditor") {
-            for ( instance in CKEDITOR.instances )
+            for (instance in CKEDITOR.instances)
                 CKEDITOR.instances[instance].updateElement();
         }
 
@@ -59,20 +59,14 @@
             cache: false,
             processData: false,
             success: function(response) {
-                if (response.value !== null && response.value !== "")
+                if (response.empty_message)
                 {
-                    if (response.display_type === "text") {
-                        $("#inlineedit-value-" + id).text(response.value);
-                    }
-                    else {
-                        console.log(response.value);
-                        $("#inlineedit-value-" + id).html(response.value);
-                    }
-                    $("#inlineedit-value-" + id).attr("class", "inlineedit-value");
+                    $("#inlineedit-value-" + id).html(response.empty_message);
+                    $("#inlineedit-value-" + id).attr("class", "inlineedit-value-transparent");
                 }
                 else {
-                    $("#inlineedit-value-" + id).text(`Add ${response.field_name}...`);
-                    $("#inlineedit-value-" + id).attr("class", "inlineedit-value-transparent");
+                    $("#inlineedit-value-" + id).html(response.value);
+                    $("#inlineedit-value-" + id).attr("class", "inlineedit-value");
                 }
                 $("#inlineedit-form-" + id).hide();
                 $("#inlineedit-value-" + id).show();

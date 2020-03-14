@@ -4,7 +4,7 @@ from django.db.models import Model as DjangoModel
 from django.core.exceptions import ImproperlyConfigured
 from typing import Callable
 
-from .adaptors.selector import get_adaptor_class
+from .adaptors import get_adaptor_class
 
 
 def handle_internal_errors(f: Callable) -> Callable:
@@ -12,6 +12,7 @@ def handle_internal_errors(f: Callable) -> Callable:
         try:
             return f(*args, **kwargs)
         except Exception as e:
+            print(">>> Django-Inlineedit Error: {}".format(str(e)))
             return HttpResponseServerError(str(e), content_type="text/plain")
     return decorator
 
@@ -19,7 +20,7 @@ def handle_internal_errors(f: Callable) -> Callable:
 @handle_internal_errors
 def inlineedit_form_submit(request: HttpRequest) -> JsonResponse:
     field_value: str = request.POST['field']
-    field_uuid: str = request.POST['id']
+    field_uuid: str = request.POST['uuid']
 
     try:
         # noinspection PyUnresolvedReferences
@@ -38,13 +39,16 @@ def inlineedit_form_submit(request: HttpRequest) -> JsonResponse:
     adaptor_class = get_adaptor_class(adaptor)
     inline_adaptor = adaptor_class(db_object, field)
 
-    inline_adaptor.field_value = field_value
+    inline_adaptor.save(field_value)
+
+    value = inline_adaptor.display_value()
+    empty_msg = "" if value else inline_adaptor.empty_message()
 
     out = {
+        'value': value,
+        'empty_message': empty_msg,
         'field_name': field_name,
-        'value': field_value,
-        'display_type': inline_adaptor.DISPLAY_TYPE,
-        'adaptor': inline_adaptor.ADAPTOR_NAME,
+        'adaptor': adaptor,
         'uuid': field_uuid
     }
 

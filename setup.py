@@ -12,7 +12,7 @@ setup(
     version='1.0',
     description='Add inline editble fields to your templates',
     long_description=DESC,
-    keywords='django, forms',
+    keywords='django, forms, editing',
     author='Pedro Tavares',
     author_email='web@ptavares.com',
     url='https://github.com/ptav/django-inlineedit',
@@ -30,8 +30,10 @@ setup(
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.6",
     ],
+
     install_requires=[
         'django'
     ],
+    
     zip_safe=False
 )

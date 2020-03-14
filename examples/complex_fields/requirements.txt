@@ -1,0 +1,16 @@
+markdown==2.6.11
+feedparser==5.2.1
+
+Django==2.1.12
+django-reversion==3.0.4
+django-ckeditor==5.9.0
+
+django-extensions
+pyreadline
+pylint
+ipython
+
+# Syntax examples
+# pywin32 >=1.0 ; sys_platform == 'win32'
+# unittest2 >=2.0,<3.0 ; python_version == '2.4' or python_version == '2.5'
+# backports.ssl_match_hostname >= 3.4 ; python_version < '2.7.9' or (python_version >= '3.0' and python_version < '3.4')
