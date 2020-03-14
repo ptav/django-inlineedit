@@ -20,6 +20,7 @@ def inlineedit(context, field_info, adaptor="basic", *args):
                                   '"{}": must be of the form '
                                   '"model.field"'.format(field_info))
 
+    user = context['request'].user
     object_model: DjangoModel = context[object_name]
     model_name = object_model._meta.label
 
@@ -27,7 +28,7 @@ def inlineedit(context, field_info, adaptor="basic", *args):
     field: DjangoField = object_model._meta.get_field(field_name)
 
     adaptor_class = get_adaptor_class(adaptor)
-    adaptor_obj = adaptor_class(object_model, field, *args)
+    adaptor_obj = adaptor_class(object_model, field, user, *args)
 
     uuid = str(hash(field_info))
     

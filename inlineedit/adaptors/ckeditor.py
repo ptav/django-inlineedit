@@ -15,10 +15,10 @@ class CKEditorAdaptor(BasicAdaptor):
             model_object: DjangoModel,
             field: DjangoField,
             user_object: Optional[Union[User, AnonymousUser]] = None,
-            ckeditor_config: str = "default"
+            *args
     ):
         super().__init__(model_object, field, user_object)
-        self._ckeditor_config = ckeditor_config
+        self._ckeditor_config = args[0] if args else "default"
 
     def form_field(self) -> DjangoFormField:
         form_field = super().form_field()
