@@ -3,7 +3,7 @@ import os
 from setuptools import setup, find_packages
 
 PATH = os.path.abspath(os.path.dirname(__file__))
-with open(os.path.join(PATH, 'README.md'), encoding='utf-8') as fp:
+with open(os.path.join(PATH, 'README.md')) as fp:
     DESC = fp.read()
 
 
