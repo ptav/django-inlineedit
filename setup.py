@@ -9,7 +9,7 @@ with open(os.path.join(PATH, 'README.md')) as fp:
 
 setup(
     name='django-inlineedit',
-    version='1.0',
+    version='1.1',
     description='Add inline editble fields to your templates',
     long_description=DESC,
     keywords='django, forms, editing',
