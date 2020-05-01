@@ -126,6 +126,7 @@ STATIC_URL = '/static/'
 
 
 # CKEditor settings
+#
 
 import ckeditor.configs
 
@@ -135,4 +136,12 @@ CKEDITOR_CONFIGS = {
         "toolbar": "Empty",
         "toolbar_Empty": []
     }
+}
+
+
+# Django Inlineedit settings
+#
+
+INLINEEDIT_ADAPTORS = {
+    "millions": "main.adaptors.ExampleCustomAdaptor",
 }

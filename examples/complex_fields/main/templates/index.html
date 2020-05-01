@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     {% load inlineedit %}
-    {% load inlineedit_default_script %}
     <meta charset="UTF-8">
     <title>Django Inline Edit</title>
 </head>
@@ -29,8 +28,11 @@
     <p>{% inlineedit "object.description_explicit" "ckeditor" %}</p>
 
     <h3>Set Toolbar</h3>
-    <p>{% inlineedit "object.description_toolbar" "ckeditor" "empty_toolbar" %}</p>
+    <p>{% inlineedit "object.description_toolbar" "ckeditor" toolbar="empty_toolbar" %}</p>
 
-    {% inlineedit_default_script %}
+    <h3>Custom Adaptor</h3>
+    <p>{% inlineedit "object.amount" "millions" %}</p>
+
+    {% inlineedit_script %}
 </body>
 </html>

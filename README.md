@@ -25,7 +25,7 @@ Inline editing for Django models
 ## Quickstart
 
 In your templates add the django-inlineedit JS in a suitable location (for example at the bottom of the template `<body>`):
-    {% load inlineedit_default_script %}
+    {% load inlineedit %}
     {% inlineedit_default_script %}
 
 Then load the template tags with:
@@ -37,6 +37,24 @@ to add inline editing to a field, you use the `inlineedit` template tag. For exa
     {% inlineedit "my_object.my_field" %}
 
 This will add the HTML and JS necessary to edit `my_field` in object `my_object`. without any further configuration, the tag will display the field and show the editing link when the mouse hover over the field. A single click will open up an editing element and accept/reject buttons. Click the former to accept any changes and the latter to cancel those.
+
+
+## Custom Adaptors
+
+The adaptors mediate how django-inlineedit interprets various kinds of fields and template forms or widgets. Users can define their own adaptors to support new types of fields and widgets.
+
+To create a new adaptor create a class that derives from `inlineedit.adaptors.basic.BasicAdaptor` and re-implement its methods as required. most often you will want to rewrite `form_field` and/or `display_value`. These functions respectively return the form field and HTML reprentation of the editable field. the specialist adaptors provided for markdown inputs and to support the CKEditor WYSIWYG editor are good examples to start with.
+
+Once your custome adaptor has been created, register it in the project settings file by defining the `INLINEEDIT_ADAPTORS` dictionary. for example:
+
+    INLINEEDIT_ADAPTORS = {
+        "custom": "main.adaptors.ExampleCustomAdaptor",
+    }
+
+Finally, you refer to the new adaptor by its `INLINEEDIT_ADAPTORS` key. for example:
+
+    {% inlineedit "my_object.my_custom_field" "custom" %}
+
 
 ## Dependencies:
 

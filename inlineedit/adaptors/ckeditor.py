@@ -8,17 +8,18 @@ from ckeditor.widgets import CKEditorWidget
 
 
 class CKEditorAdaptor(BasicAdaptor):
-    ADAPTOR_NAME = "ckeditor"
-
     def __init__(
             self,
             model_object: DjangoModel,
             field: DjangoField,
             user_object: Optional[Union[User, AnonymousUser]] = None,
-            *args
+            *args,
+            **kwargs
     ):
         super().__init__(model_object, field, user_object)
-        self._ckeditor_config = args[0] if args else "default"
+        #self._ckeditor_config = args[0] if args else "default"
+        self._ckeditor_config = kwargs['toolbar'] if 'toolbar' in kwargs else "default"
+
 
     def form_field(self) -> DjangoFormField:
         form_field = super().form_field()

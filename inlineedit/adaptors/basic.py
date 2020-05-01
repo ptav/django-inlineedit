@@ -16,8 +16,8 @@ else:
 
 
 class BasicAdaptor:
-    ADAPTOR_NAME = "basic"
-
+    "Simplest adaptor and interface"
+    
     def __init__(
             self,
             model_object: DjangoModel,

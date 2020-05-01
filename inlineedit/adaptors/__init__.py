@@ -2,6 +2,7 @@
 #
 # (c) Pedro Tavares, 2019-2020
 
+from importlib import import_module
 from django.conf import settings
 
 from .basic import BasicAdaptor
@@ -9,18 +10,18 @@ from .ckeditor import CKEditorAdaptor
 from .markdown import MarkdownAdaptor
 
 
-__all__ = [
-    BasicAdaptor,
-    CKEditorAdaptor,
-    MarkdownAdaptor,
+_ADAPTOR_LOOKUP_ = {
+    'basic': BasicAdaptor,
+    'markdown': MarkdownAdaptor,
+    'ckeditor': CKEditorAdaptor,
+}
 
-]
-
-_ADAPTORS_ = __all__
-if hasattr(settings, 'DJANGO_INLINEEDIT_ADAPTORS'):
-    _ADAPTORS_ += settings.DJANGO_INLINEEDIT_ADAPTORS
-
-_ADAPTOR_LOOKUP_ = dict([(a.ADAPTOR_NAME,a) for a in _ADAPTORS_])
+if hasattr(settings, 'INLINEEDIT_ADAPTORS'):
+    for key,item in settings.INLINEEDIT_ADAPTORS.items():
+        x = item.split('.')
+        m = import_module('.'.join(x[:-1]))
+        c = getattr(m, x[-1])
+        _ADAPTOR_LOOKUP_[key] = c
 
 
 def get_adaptor_class(adaptor):
