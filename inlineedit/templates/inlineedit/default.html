@@ -21,7 +21,7 @@
         </span>
     </div>
 
-    <form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true" adaptor="{{ adaptor }}" style="display:none">
+    <form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" adaptor="{{ adaptor }}" style="display:none">
         {% csrf_token %}
 
         <span style="color:red;">{{ form.non_field_errors }}</span>
