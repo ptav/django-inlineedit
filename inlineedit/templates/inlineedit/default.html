@@ -1,46 +1,51 @@
-<style>
-    .inlineedit-value-transparent {
-        opacity: 0.5;
-    }
-</style>
+{% if has_edit_perm %}
+    <style>
+        .inlineedit-value-transparent {
+            opacity: 0.5;
+        }
+    </style>
 
-<div class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
-    {% if empty_message %}
-    <span class="inlineedit-value-transparent" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
-        {{ empty_message }}
-    </span>
-    {% else %}
-    <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
-          {{ value }}
-    </span>
-    {% endif %}
+    <div class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
+        {% if empty_message %}
+        <span class="inlineedit-value-transparent" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
+            {{ empty_message }}
+        </span>
+        {% else %}
+        <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
+            {{ value }}
+        </span>
+        {% endif %}
 
-    <span class="inlineedit-toggle" id="inlineedit-toggle-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true">
-        <small>&#9998;</small>
-    </span>
-</div>
+        <span class="inlineedit-toggle" id="inlineedit-toggle-{{ uuid }}" data-field-id="{{ uuid }}"  style="display:none">
+            <small>&#9998;</small>
+        </span>
+    </div>
 
-<form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true" adaptor="{{ adaptor }}">
-    {% csrf_token %}
+    <form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" hidden="true" adaptor="{{ adaptor }}" style="display:none">
+        {% csrf_token %}
 
-    <span style="color:red;">{{ form.non_field_errors }}</span>
+        <span style="color:red;">{{ form.non_field_errors }}</span>
 
-    {% for hidden_field in form.hidden_fields %}
-    <span style="color:red;">{{ hidden_field.errors }}</span>
-    {{ hidden_field }}
-    {% endfor %}
+        {% for hidden_field in form.hidden_fields %}
+        <span style="color:red;">{{ hidden_field.errors }}</span>
+        {{ hidden_field }}
+        {% endfor %}
 
-    {% for field in form.visible_fields %}
-    <span style="color:red;">{{ field.errors }}</span>
-    {{ field }}
-    {% if field.help_text %}
-    <small><br>{{ field.help_text }}</small>
-    {% endif %}
-    {% endfor %}
+        {% for field in form.visible_fields %}
+        <span style="color:red;">{{ field.errors }}</span>
+        {{ field }}
+        {% if field.help_text %}
+        <small><br>{{ field.help_text }}</small>
+        {% endif %}
+        {% endfor %}
 
-    <button type="submit" class="btn btn-sm btn-link">&check;</button>
-    <button type="reset" class="btn btn-sm btn-link"  onClick="inlineedit_exit_editing(this)">&cross;</button>
-</form>
+        <button type="submit" class="btn btn-sm btn-link">&check;</button>
+        <button type="reset" class="btn btn-sm btn-link"  onClick="inlineedit_exit_editing(this)">&cross;</button>
+    </form>
 
-{{ form.media }}
+    {{ form.media }}
 
+{% else %}
+    {{ value }}
+
+{% endif %}

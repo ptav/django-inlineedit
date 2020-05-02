@@ -11,9 +11,9 @@
     </h1>
     
     <table>
-        <tr><th>Approved:</th><td>{% inlineedit "object.approved" %}</td></tr>
-        <tr><th>Category:</th><td>{% inlineedit "object.category" %}</td></tr>
-        <tr><th>Age:</th><td>{% inlineedit "object.age" %}</td></tr>
+        <tr><th>Boolean:</th><td>{% inlineedit "object.approved" %}</td></tr>
+        <tr><th>Select:</th><td>{% inlineedit "object.category" %}</td></tr>
+        <tr><th>Integer:</th><td>{% inlineedit "object.age" %}</td></tr>
     </table>
 
     <h2>Markdown</h2>
@@ -27,11 +27,14 @@
     <h3>Explicit</h3>
     <p>{% inlineedit "object.description_explicit" "ckeditor" %}</p>
 
-    <h3>Set Toolbar</h3>
+    <h3>Custom CKEditor Toolbar</h3>
     <p>{% inlineedit "object.description_toolbar" "ckeditor" toolbar="empty_toolbar" %}</p>
 
-    <h3>Custom Adaptor</h3>
-    <p>{% inlineedit "object.amount" "millions" %}</p>
+    <h2>Custom Adaptor</h2>
+    <p>Float: {% inlineedit "object.amount" "millions" %}</p>
+
+    <h2>Blocked Adaptor</h2>
+    <p>Float: {% inlineedit "object.amount" "blocked" %}</p>
 
     {% inlineedit_script %}
 </body>

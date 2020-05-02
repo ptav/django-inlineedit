@@ -1,7 +1,7 @@
 from django.http import JsonResponse, HttpRequest, HttpResponse, HttpResponseServerError
 from django.apps import apps
 from django.db.models import Model as DjangoModel
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, PermissionDenied
 from typing import Callable
 
 from .adaptors import get_adaptor_class
@@ -40,6 +40,7 @@ def inlineedit_form_submit(request: HttpRequest) -> JsonResponse:
     inline_adaptor = adaptor_class(db_object, field)
 
     inline_adaptor.save(field_value)
+    if not inline_adaptor.has_edit_perm(request.user): raise PermissionDenied()
 
     value = inline_adaptor.display_value()
     empty_msg = "" if value else inline_adaptor.empty_message()
