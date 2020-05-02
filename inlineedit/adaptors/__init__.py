@@ -16,6 +16,7 @@ _ADAPTOR_LOOKUP_ = {
     'ckeditor': CKEditorAdaptor,
 }
 
+
 if hasattr(settings, 'INLINEEDIT_ADAPTORS'):
     for key,item in settings.INLINEEDIT_ADAPTORS.items():
         x = item.split('.')

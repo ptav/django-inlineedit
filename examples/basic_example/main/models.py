@@ -3,8 +3,8 @@ from ckeditor.fields import RichTextField
 
 
 USER_CHOICES = [
-    ("admin", "Admin"),
-    ("user", "User"),
+    ("a", "Admin"),
+    ("b", "User"),
 ]
 
 

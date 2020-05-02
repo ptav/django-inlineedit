@@ -5,10 +5,16 @@ from django.urls import reverse
 from django.forms.widgets import HiddenInput
 from django import forms
 
-from ..adaptors import get_adaptor_class
 from ..apps import InlineeditConfig
+from ..adaptors import get_adaptor_class
+
 
 register = Library()
+
+
+@register.simple_tag()
+def inlineedit_access(user, model, field):    
+    return check_access(user, model, field)
 
 
 @register.inclusion_tag('inlineedit/default_bevahiour.html', takes_context=False)
@@ -69,5 +75,6 @@ def inlineedit(context, field_info, adaptor="basic", *args, **kwargs):
         'value': value,
         'empty_message': empty_msg,
         'adaptor': adaptor,
+        'has_edit_perm': adaptor_obj.has_edit_perm(user),
         'uuid': uuid,
     }

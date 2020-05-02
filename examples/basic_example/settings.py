@@ -142,6 +142,9 @@ CKEDITOR_CONFIGS = {
 # Django Inlineedit settings
 #
 
+INLINEEDIT_EDIT_ACCESS = lambda user, model, field: True
+
 INLINEEDIT_ADAPTORS = {
-    "millions": "main.adaptors.ExampleCustomAdaptor",
+    "millions": "main.adaptors.MillionsAdaptor",
+    "blocked": "main.adaptors.BlockedAdaptor",
 }

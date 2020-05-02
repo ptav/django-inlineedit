@@ -1,10 +1,12 @@
+from typing import Union, Optional
 from django.db.models import Model as DjangoModel, Field as DjangoField
 from django.forms import Field as DjangoFormField
 from django.contrib.auth.models import User, AnonymousUser
 from django.utils.html import format_html
 from django.conf import settings
 
-from typing import Union, Optional
+from ..access import __check_edit_access__
+
 
 if 'reversion' in settings.INSTALLED_APPS:
     import reversion
@@ -25,6 +27,7 @@ class BasicAdaptor:
             user: Optional[Union[User, AnonymousUser]] = None
     ):
         self._model: DjangoModel = model_object
+        self._app = model_object._meta.app_label
         self._field = field
         self._user = user
 
@@ -70,3 +73,7 @@ class BasicAdaptor:
                     reversion.set_user(self._user)
         else:
             self._model.save()
+
+    def has_edit_perm(self, user):
+        return __check_edit_access__(user, self._model, self._field)
+

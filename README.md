@@ -39,6 +39,19 @@ to add inline editing to a field, you use the `inlineedit` template tag. For exa
 This will add the HTML and JS necessary to edit `my_field` in object `my_object`. without any further configuration, the tag will display the field and show the editing link when the mouse hover over the field. A single click will open up an editing element and accept/reject buttons. Click the former to accept any changes and the latter to cancel those.
 
 
+## Access Control
+
+The default behaviour is to users that have change permissions to edit a particular model field.
+
+To change this behaviour set `INLINEEDIT_EDIT_ACCESS` in settings to a callable that takes the user, model instance and field class as arguments and returns True if editing is allowed.
+
+Two additional options are in the app. `access.is_staff` and `access.is_superuser` allow editing only by staff members or superusers respectively. The former also requires that the user has change permission. Finally, `access.has_perm` implements the default behaviour. Example:
+
+    INLINEEDIT_EDIT_ACCESS = inlineedit.access.is_staff
+
+Access control can also be implemented at adaptor level as described below
+
+
 ## Custom Adaptors
 
 The adaptors mediate how django-inlineedit interprets various kinds of fields and template forms or widgets. Users can define their own adaptors to support new types of fields and widgets.
@@ -54,6 +67,15 @@ Once your custome adaptor has been created, register it in the project settings 
 Finally, you refer to the new adaptor by its `INLINEEDIT_ADAPTORS` key. for example:
 
     {% inlineedit "my_object.my_custom_field" "custom" %}
+
+
+### Access Control
+
+You can control access to editing at adaptor level as well by overwriting `has_edit_perm(user)`. For example, the following will allow anyone to edit a particular field that is using `ExampleCustomAdaptor`:
+
+    class ExampleCustomAdaptor:
+        def has_edit_perm(user):
+            return True
 
 
 ## Dependencies:
