@@ -1,25 +1,17 @@
 {% if has_edit_perm %}
-    <style>
-        .inlineedit-value-transparent {
-            opacity: 0.5;
-        }
-    </style>
-
-    <div class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
-        {% if empty_message %}
-        <span class="inlineedit-value-transparent" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
-            {{ empty_message }}
-        </span>
-        {% else %}
+    <span class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
         <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
-            {{ value }}
+            {% if empty_message %}
+                <span style="opacity: 0.5;">{{ empty_message }}</span>
+            {% else %}
+                {{ value }}
+            {% endif %}
         </span>
-        {% endif %}
 
         <span class="inlineedit-toggle" id="inlineedit-toggle-{{ uuid }}" data-field-id="{{ uuid }}"  style="display:none">
             <small>&#9998;</small>
         </span>
-    </div>
+    </span>
 
     <form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" adaptor="{{ adaptor }}" style="display:none">
         {% csrf_token %}

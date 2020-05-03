@@ -19,12 +19,12 @@ def handle_internal_errors(f: Callable) -> Callable:
 
 @handle_internal_errors
 def inlineedit_form_submit(request: HttpRequest) -> JsonResponse:
-    field_value: str = request.POST['field']
-    field_uuid: str = request.POST['uuid']
+    field_value = request.POST['field']
+    field_uuid = request.POST['uuid']
 
     try:
         # noinspection PyUnresolvedReferences
-        session_data: str = request.session[field_uuid]
+        session_data = request.session[field_uuid]
     except AttributeError:
         raise ImproperlyConfigured("The django application does not "
                                    "have the required session"

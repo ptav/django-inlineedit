@@ -1,6 +1,5 @@
 from typing import Union, Optional
 from django.db.models import Model as DjangoModel, Field as DjangoField
-from django.forms import Field as DjangoFormField
 from django.contrib.auth.models import User, AnonymousUser
 from django.utils.html import format_html
 from django.conf import settings
@@ -29,6 +28,11 @@ class BasicAdaptor:
         self._model: DjangoModel = model_object
         self._app = model_object._meta.app_label
         self._field = field
+        
+        # required because some widgets may return the wrong type (e.g. IntegerField 
+        # with selector widget) this is used to force type back to the correct one
+        self._value_type = type(getattr(model_object, field.attname)) 
+        
         self._user = user
 
         if _reversion_installed:
@@ -36,11 +40,11 @@ class BasicAdaptor:
         else:
             self._reversion_enabled = False
 
-    def form_field(self) -> DjangoFormField:
+    def form_field(self):
         "Return the DjangoFormField object"
         return self._field.formfield()
 
-    def empty_message(self) -> str:
+    def empty_message(self):
         "Returns message to show users if field is empty. The default is 'Hover here to edit <name>'"
         return "Hover here to edit {}".format(self._field.verbose_name)
 
@@ -50,7 +54,9 @@ class BasicAdaptor:
 
     def display_value(self):
         "Returns the field value to be shown to users"
-        db = self.db_value()
+        
+        "_value_type is used to force type back to the correct type"
+        db = self._value_type(self.db_value())
         
         if self._field.choices: # convert to external representation
             display = dict(self._field.choices).get(db,"--")
@@ -63,7 +69,7 @@ class BasicAdaptor:
         
         return display
 
-    def save(self, value: str):
+    def save(self, value):
         "Save a new field value to the db. The default version supports django-reversions if that is enabled"
         setattr(self._model, self._field.attname, value)
         if self._reversion_enabled:

@@ -6,15 +6,16 @@
     <title>Django Inline Edit</title>
 </head>
 <body>
-    <h1>
-        {% inlineedit "object.name" %}
-    </h1>
+    <h1>{% inlineedit "object.name" %}</h1>
     
     <table>
         <tr><th>Boolean:</th><td>{% inlineedit "object.approved" %}</td></tr>
         <tr><th>Select:</th><td>{% inlineedit "object.category" %}</td></tr>
         <tr><th>Integer:</th><td>{% inlineedit "object.age" %}</td></tr>
     </table>
+
+    <h2>Integer Selector</h2>
+    <p>Select: {% inlineedit "object.intchoices" %}</p>
 
     <h2>Markdown</h2>
     <p>{% inlineedit "object.notes" "markdown" %}</p>
