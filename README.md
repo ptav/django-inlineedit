@@ -14,6 +14,10 @@ OR
 Run the following command inside the top-level cloned repository:
    
    'easy_install .'
+   
+Finally, make sure jquery is loaded on any templates that use inline editing. For example, add the following to the HEAD of your page:
+
+    <script src="https://code.jquery.com/jquery.js"></script>
 
 
 ## Quickstart
@@ -26,7 +30,7 @@ In your templates load the template tags with:
 
     {% load inlineedit %}
 
-Then add the django-inlineedit JS is a suitable location (for example at the bottom of the template `<body>`):
+Then add the django-inlineedit JS is a suitable location (for example at the bottom of the template `<body>`). jQuery must be loaded **before** this:
 
     {% inlineedit_default_script %}
 
