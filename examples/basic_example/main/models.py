@@ -28,3 +28,10 @@ class Person(models.Model):
     description_toolbar = models.TextField(blank=True)
 
     amount = models.FloatField(blank=True, null=True)
+
+    website = models.ForeignKey("Website", null=True, on_delete=models.CASCADE)
+
+
+class Website(models.Model):
+    url = models.URLField("URL")
+    label = models.CharField("Label", max_length=32)

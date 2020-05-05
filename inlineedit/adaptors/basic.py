@@ -32,6 +32,7 @@ class BasicAdaptor:
         # required because some widgets may return the wrong type (e.g. IntegerField 
         # with selector widget) this is used to force type back to the correct one
         self._value_type = type(getattr(model_object, field.attname)) 
+        if self._value_type == type(None): self._value_type = lambda x: x
         
         self._user = user
 

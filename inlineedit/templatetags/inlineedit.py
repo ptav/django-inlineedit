@@ -1,6 +1,5 @@
 from django.template.library import Library
 from django.template.exceptions import TemplateSyntaxError
-from django.db.models import Model as DjangoModel, Field as DjangoField
 from django.urls import reverse
 from django.forms.widgets import HiddenInput
 from django import forms
@@ -29,25 +28,28 @@ def inlineedit_script():
 @register.inclusion_tag('inlineedit/default.html', takes_context=True)
 def inlineedit(context, field_info, adaptor="basic", *args, **kwargs):
     try:
-        object_name, field_name = tuple(field_info.split('.'))
+        splits = tuple(field_info.split('.'))
+        field_name = splits[-1]
+        #object_name = '.'.join(splits[:-1])
+
     except ValueError:
         raise TemplateSyntaxError('inlineedit invalid argument '
                                   '"{}": must be of the form '
                                   '"model.field"'.format(field_info))
 
     user = context['request'].user
-    object_model: DjangoModel = context[object_name]
+    object_model = context[splits[0]]
+    for s in splits[1:-1]:
+        object_model = getattr(object_model,s)
     model_name = object_model._meta.label
 
-    # noinspection PyProtectedMember
-    field: DjangoField = object_model._meta.get_field(field_name)
+    field = object_model._meta.get_field(field_name)
 
     adaptor_class = get_adaptor_class(adaptor)
     adaptor_obj = adaptor_class(object_model, field, user, *args, **kwargs)
 
-    uuid = str(hash(field_info))
+    uuid = str(hash(field_info + adaptor))
     
-    # noinspection PyProtectedMember
     context.request.session[uuid] = "{}.{}.{}.{}".format(
         model_name,
         field_name,

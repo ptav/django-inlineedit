@@ -17,6 +17,12 @@
     <h2>Integer Selector</h2>
     <p>Select: {% inlineedit "object.intchoices" %}</p>
 
+    <h2>ForeignKey field</h2>
+
+    <p>{% inlineedit "object.website.label" %}: {% inlineedit "object.website.url" %}</p>
+
+    <hr>
+    
     <h2>Markdown</h2>
     <p>{% inlineedit "object.notes" "markdown" %}</p>
 
@@ -30,6 +36,8 @@
 
     <h3>Custom CKEditor Toolbar</h3>
     <p>{% inlineedit "object.description_toolbar" "ckeditor" toolbar="empty_toolbar" %}</p>
+
+    <hr>
 
     <h2>Custom Adaptor</h2>
     <p>Float: {% inlineedit "object.amount" "millions" %}</p>
