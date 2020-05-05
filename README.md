@@ -5,24 +5,22 @@ Inline editing for Django models
 
 ## Installation
 
-1. Use pip to install the latest stable release
+Use pip to install the latest stable release
     
     `pip install django-inlineedit`
    
-   OR
+OR
    
-   Run the following command inside the top-level cloned repository:
+Run the following command inside the top-level cloned repository:
    
    'easy_install .'
-2. Add `inlineedit` to `INSTALLED_APPS` in the project settings (see dependencies below)
-
-3. Add `path(<url for form submission>, include('inlineedit.urls'))` to the base URLs
-
-    django-inlineedit will use any URL you specify, make sure it does not conflict with
-    existing URLs in your app!
 
 
 ## Quickstart
+
+Add `inlineedit` to `INSTALLED_APPS` in the project settings (see dependencies below)
+
+Add `path(<url for form submission>, include('inlineedit.urls'))` to the base URLs. Django-inlineedit will use any URL you specify, but make sure it does not conflict with existing URLs in your app!
 
 In your templates load the template tags with:
 
