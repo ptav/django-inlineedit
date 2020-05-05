@@ -142,8 +142,11 @@ CKEDITOR_CONFIGS = {
 # Django Inlineedit settings
 #
 
+# This setting controls default editing access within Django-inlineedit
+# In this case we are enabling editing to anyone using the example
 INLINEEDIT_EDIT_ACCESS = lambda user, model, field: True
 
+# Two custom adaptors are being registered below
 INLINEEDIT_ADAPTORS = {
     "millions": "main.adaptors.MillionsAdaptor",
     "blocked": "main.adaptors.BlockedAdaptor",
