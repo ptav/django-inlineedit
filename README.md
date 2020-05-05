@@ -24,19 +24,23 @@ Inline editing for Django models
 
 ## Quickstart
 
-In your templates add the django-inlineedit JS in a suitable location (for example at the bottom of the template `<body>`):
+In your templates load the template tags with:
+
     {% load inlineedit %}
+
+Then add the django-inlineedit JS is a suitable location (for example at the bottom of the template `<body>`):
+
     {% inlineedit_default_script %}
 
-Then load the template tags with:
-
-    {% load inlineedit %}
-
-to add inline editing to a field, you use the `inlineedit` template tag. For example:
+To add inline editing to a field, you use the `inlineedit` template tag. For example:
 
     {% inlineedit "my_object.my_field" %}
 
 This will add the HTML and JS necessary to edit `my_field` in object `my_object`. without any further configuration, the tag will display the field and show the editing link when the mouse hover over the field. A single click will open up an editing element and accept/reject buttons. Click the former to accept any changes and the latter to cancel those.
+
+ForeignKeys can be transversed as expected:
+
+    {% inlineedit "my_object.my_child_object.my_field" %}
 
 
 ## Access Control
