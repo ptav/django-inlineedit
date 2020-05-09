@@ -31,6 +31,8 @@ class Person(models.Model):
 
     website = models.ForeignKey("Website", null=True, on_delete=models.CASCADE)
 
+    date = models.DateField(null=True,blank=True)
+
 
 class Website(models.Model):
     url = models.URLField("URL")

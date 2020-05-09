@@ -18,8 +18,11 @@ from django.contrib import admin
 
 from main.views import index
 
+
 urlpatterns = [
-    path('', index, name="index"),
+    path('', index),
+    path('<str:template>', index),
+
     path('inlineedit/', include('inlineedit.urls')),
     path('admin/', admin.site.urls),
 ]

@@ -1,0 +1,31 @@
+{% load inlineedit %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Inline Edit - Custom Adaptors</title>
+</head>
+<body>
+    <h1>Custom Adaptors</h1>
+    
+    <h2>Markdown</h2>
+    {% inlineedit "object.notes" "markdown" %}
+
+    <h2>CKEditor</h2>
+
+    <h3>Implicit (RichtextField)</h3>
+    {% inlineedit "object.description_implicit" "ckeditor-implicit" %}
+
+    <h3>Explicit</h3>
+    {% inlineedit "object.description_explicit" "ckeditor" %}
+
+    <h3>Custom CKEditor Toolbar</h3>
+    {% inlineedit "object.description_toolbar" "ckeditor" toolbar="empty_toolbar" %}
+
+    <h2>Custom Adaptor</h2>
+    <p>Float: {% inlineedit "object.amount" "millions" %}</p>
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    {% inlineedit_script %}
+</body>
+</html>

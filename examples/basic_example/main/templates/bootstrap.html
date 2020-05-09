@@ -1,0 +1,26 @@
+{% load inlineedit %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Django Inline Edit - Bootstrap example</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    <h1>Bootstrap example</h1>
+    
+    <div class="row">
+        <div class="col-4">
+            <table class="table">
+                <tr><th>Boolean:</th><td>{% inlineedit "object.approved" %}</td></tr>
+                <tr><th>Select:</th><td>{% inlineedit "object.category" %}</td></tr>
+                <tr><th>Integer:</th><td>{% inlineedit "object.age" %}</td></tr>
+                <tr><th>Date:</th><td>{% inlineedit "object.date" "datepicker" toggle_state="show" %}</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    {% inlineedit_script %}
+</body>
+</html>

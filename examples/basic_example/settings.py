@@ -150,4 +150,5 @@ INLINEEDIT_EDIT_ACCESS = lambda user, model, field: True
 INLINEEDIT_ADAPTORS = {
     "millions": "main.adaptors.MillionsAdaptor",
     "blocked": "main.adaptors.BlockedAdaptor",
+    "datepicker": "main.adaptors.DatePicker",
 }

@@ -28,3 +28,9 @@ class CKEditorAdaptor(BasicAdaptor):
 
     def display_value(self) -> str:
         return format_html(self.db_value())
+
+
+class CKEditorImplicitAdaptor(BasicAdaptor):
+    "If the editor is already selected with the model then we only need to override the rendering"
+    def display_value(self) -> str:
+        return format_html(self.db_value())

@@ -1,4 +1,11 @@
 <script type="text/javascript">
+    // Check jQuery is loaded
+    window.onload = function() {
+        if(!window.jQuery) {
+            alert("jQuery must be loaded for Django-inlineedit to work.\nIf it is, check it happens before the inlineedit_scripts template tag");
+        }
+    };
+
     // Mouse enters toggle area
     $(".inlineedit-toggle-area").mouseenter(
         function() {
@@ -6,7 +13,6 @@
             $("#inlineedit-toggle-" + id).show();
         }
     );
-
 
     // Mouse leaves toggle area
     $(".inlineedit-toggle-area").mouseleave(
@@ -16,9 +22,8 @@
         }
     );
 
-
     // Click in edit icon (toggles field editor on)
-    $(".inlineedit-toggle").click(
+    $(".inlineedit-toggle-area").click(
         function() {
             const id = $(this).attr("data-field-id");
             $("#inlineedit-value-" + id).hide();
@@ -26,7 +31,6 @@
             $("#inlineedit-form-" + id).show();
         }
     );
-
 
     // Cancel editing
     function inlineedit_exit_editing(object) {
@@ -45,7 +49,7 @@
             url = "{{ inlineedit_endpoint }}";
         }
 
-        if ($(this).attr("adaptor") === "ckeditor") {
+        if ($(this).attr("adaptor").substr(0,8) === "ckeditor") {
             for (instance in CKEDITOR.instances)
                 CKEDITOR.instances[instance].updateElement();
         }

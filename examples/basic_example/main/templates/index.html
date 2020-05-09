@@ -1,7 +1,7 @@
+{% load inlineedit %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load inlineedit %}
     <meta charset="UTF-8">
     <title>Django Inline Edit</title>
 </head>
@@ -21,29 +21,14 @@
 
     <p>{% inlineedit "object.website.label" %}: {% inlineedit "object.website.url" %}</p>
 
-    <hr>
-    
-    <h2>Markdown</h2>
-    <p>{% inlineedit "object.notes" "markdown" %}</p>
-
-    <h2>CKEditor</h2>
-
-    <h3>Implicit (RichtextField)</h3>
-    <p>{% inlineedit "object.description_implicit" %}</p>
-
-    <h3>Explicit</h3>
-    <p>{% inlineedit "object.description_explicit" "ckeditor" %}</p>
-
-    <h3>Custom CKEditor Toolbar</h3>
-    <p>{% inlineedit "object.description_toolbar" "ckeditor" toolbar="empty_toolbar" %}</p>
-
-    <hr>
-
-    <h2>Custom Adaptor</h2>
-    <p>Float: {% inlineedit "object.amount" "millions" %}</p>
-
-    <h2>Blocked Adaptor</h2>
+    <h2>Fails Edit Permissions</h2>
     <p>Float: {% inlineedit "object.amount" "blocked" %}</p>
+
+    <hr>
+
+    <button onclick="window.location.href='/custom';">Custom adaptor examples</button>
+    <button onclick="window.location.href='/template';">Template examples</button>
+    <button onclick="window.location.href='/bootstrap';">Bootstrap examples</button>
 
     <script src="https://code.jquery.com/jquery.js"></script>
     {% inlineedit_script %}

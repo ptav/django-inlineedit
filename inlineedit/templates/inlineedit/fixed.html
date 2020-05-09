@@ -1,0 +1,40 @@
+{% if has_edit_perm %}
+    <span class="inlineedit-toggle-area" id="inlineedit-toggle-area-{{ uuid }}" data-field-id="{{ uuid }}">
+        <span class="inlineedit-value" id="inlineedit-value-{{ uuid }}" data-field-id="{{ uuid }}">
+            {% if empty_message %}
+                <span style="opacity: 0.5;">{{ empty_message }} <small>&#9998;</small></span>
+            {% else %}
+                {{ value }}
+                <small>&#9998;</small>
+            {% endif %}
+        </span>
+    </span>
+
+    <form method="POST" class="inlineedit-form" id="inlineedit-form-{{ uuid }}" data-field-id="{{ uuid }}" adaptor="{{ adaptor }}" style="display:none">
+        {% csrf_token %}
+
+        <span style="color:red;">{{ form.non_field_errors }}</span>
+
+        {% for hidden_field in form.hidden_fields %}
+        <span style="color:red;">{{ hidden_field.errors }}</span>
+        {{ hidden_field }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+        <span style="color:red;">{{ field.errors }}</span>
+        {{ field }}
+        {% if field.help_text %}
+        <small><br>{{ field.help_text }}</small>
+        {% endif %}
+        {% endfor %}
+
+        <button type="submit" class="btn btn-sm btn-link">&check;</button>
+        <button type="reset" class="btn btn-sm btn-link"  onClick="inlineedit_exit_editing(this)">&cross;</button>
+    </form>
+
+    {{ form.media }}
+
+{% else %}
+    {{ value }}
+
+{% endif %}

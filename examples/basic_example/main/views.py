@@ -3,7 +3,7 @@ from django.shortcuts import render
 from .models import Person, Website
 
 
-def index(request):
+def index(request, template="index"):
     if Person.objects.count() == 0:
         web = Website(label="WeDidIt", url="https://www.wedidit.app")
         web.save()
@@ -13,4 +13,4 @@ def index(request):
 
     person = Person.objects.all()[0]
 
-    return render(request, "index.html", {"object": person})
+    return render(request, f"{template}.html", {"object": person})

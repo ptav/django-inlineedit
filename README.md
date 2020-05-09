@@ -56,6 +56,15 @@ Two additional options are in the app. `access.is_staff` and `access.is_superuse
 Access control can also be implemented at adaptor level as described below
 
 
+## Extra Arguments
+
+the inlineedit template tag can handle certain extra parameters
+
+| Parameter     | Options | Description |
+|---------------|---------|-------------|
+| template | 'inlineedit/default.html', 'inlineedit/fixed.html' or any other template of your choice | Chose template used to render inlineedit links and forms |
+
+
 ## Custom Adaptors
 
 The adaptors mediate how django-inlineedit interprets various kinds of fields and template forms or widgets. Users can define their own adaptors to support new types of fields and widgets.

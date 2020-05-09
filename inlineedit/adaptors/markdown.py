@@ -5,5 +5,5 @@ from markdown import markdown
 
 
 class MarkdownAdaptor(BasicAdaptor):
-    def display_value(self) -> str:
+    def display_value(self):
         return format_html(markdown(self.db_value()))

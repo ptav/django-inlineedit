@@ -1,3 +1,4 @@
+import logging
 from typing import Union, Optional
 from django.db.models import Model as DjangoModel, Field as DjangoField
 from django.contrib.auth.models import User, AnonymousUser
@@ -7,13 +8,16 @@ from django.conf import settings
 from ..access import __check_edit_access__
 
 
+logger = logging.getLogger(__name__)
+
+
 if 'reversion' in settings.INSTALLED_APPS:
     import reversion
     _reversion_installed = True
-    if settings.DEBUG: print(">>> django-Inlineedit -> django-reversion is enabled")
+    logger.info("django-reversion is enabled in django-Inlineedit")
 else:
     _reversion_installed = False
-    if settings.DEBUG: print(">>> django-Inlineedit -> django-reversion is disabled")
+    logger.info("django-reversion is disabled in django-Inlineedit")
 
 
 class BasicAdaptor:
@@ -23,19 +27,15 @@ class BasicAdaptor:
             self,
             model_object: DjangoModel,
             field: DjangoField,
-            user: Optional[Union[User, AnonymousUser]] = None
+            user: Optional[Union[User, AnonymousUser]] = None,
+            *args,
+            **kwargs
     ):
         self._model: DjangoModel = model_object
         self._app = model_object._meta.app_label
         self._field = field
-        
-        # required because some widgets may return the wrong type (e.g. IntegerField 
-        # with selector widget) this is used to force type back to the correct one
-        self._value_type = type(getattr(model_object, field.attname)) 
-        if self._value_type == type(None): self._value_type = lambda x: x
-        
         self._user = user
-
+        
         if _reversion_installed:
             self._reversion_enabled = True
         else:
@@ -57,7 +57,7 @@ class BasicAdaptor:
         "Returns the field value to be shown to users"
         
         "_value_type is used to force type back to the correct type"
-        db = self._value_type(self.db_value())
+        db = self.db_value()
         
         if self._field.choices: # convert to external representation
             display = dict(self._field.choices).get(db,"--")
