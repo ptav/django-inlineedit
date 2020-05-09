@@ -5,30 +5,32 @@ Inline editing for Django models
 
 ## Installation
 
-1. Use pip to install the latest stable release
+Use pip to install the latest stable release
     
     `pip install django-inlineedit`
    
-   OR
+OR
    
-   Run the following command inside the top-level cloned repository:
+Run the following command inside the top-level cloned repository:
    
    'easy_install .'
-2. Add `inlineedit` to `INSTALLED_APPS` in the project settings (see dependencies below)
+   
+Finally, make sure jquery is loaded on any templates that use inline editing. For example, add the following to the HEAD of your page:
 
-3. Add `path(<url for form submission>, include('inlineedit.urls'))` to the base URLs
-
-    django-inlineedit will use any URL you specify, make sure it does not conflict with
-    existing URLs in your app!
+    <script src="https://code.jquery.com/jquery.js"></script>
 
 
 ## Quickstart
+
+Add `inlineedit` to `INSTALLED_APPS` in the project settings (see dependencies below)
+
+Add `path(<url for form submission>, include('inlineedit.urls'))` to the base URLs. Django-inlineedit will use any URL you specify, but make sure it does not conflict with existing URLs in your app!
 
 In your templates load the template tags with:
 
     {% load inlineedit %}
 
-Then add the django-inlineedit JS is a suitable location (for example at the bottom of the template `<body>`):
+Then add the django-inlineedit JS is a suitable location (for example at the bottom of the template `<body>`). jQuery must be loaded **before** this:
 
     {% inlineedit_default_script %}
 
