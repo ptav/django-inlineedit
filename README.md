@@ -47,11 +47,11 @@ ForeignKeys can be transversed as expected:
 
 ## Access Control
 
-The default behaviour is to users that have change permissions to edit a particular model field.
+The default behaviour is to allow users that have change permissions to edit a particular model field.
 
-To change this behaviour set `INLINEEDIT_EDIT_ACCESS` in settings to a callable that takes the user, model instance and field class as arguments and returns True if editing is allowed.
+To change this behaviour you can set `INLINEEDIT_EDIT_ACCESS` in settings. It accepts a callable that takes the user, model instance and field class as arguments and returns True if editing is allowed.
 
-Two additional options are in the app. `access.is_staff` and `access.is_superuser` allow editing only by staff members or superusers respectively. The former also requires that the user has change permission. Finally, `access.has_perm` implements the default behaviour. Example:
+Besides the default behaviour, two additional options are available off-the-shelf. `access.is_staff` and `access.is_superuser` allow editing only by staff members or superusers respectively. The former still requires that a vuser has change permission to the model. the default behaviour is implemente3d in `access.has_perm`. Usage example:
 
     INLINEEDIT_EDIT_ACCESS = inlineedit.access.is_staff
 
@@ -60,41 +60,45 @@ Access control can also be implemented at adaptor level as described below
 
 ## Custom Adaptors
 
-The adaptors mediate how django-inlineedit interprets various kinds of fields and template forms or widgets. Users can define their own adaptors to support new types of fields and widgets.
+The adaptors mediate how django-inlineedit interprets various kinds of fields and template forms or widgets. Users can define their own adaptors to support new types of fields and widgets. A custom adaptor is created by inheriting from `adaptors.BasicAdaptor` and then re-implement the required methods. Most often you will want to rewrite `form_field` and/or `display_value`. These functions respectively return the form field and HTML representation of the editable field.
 
-Three custom adaptors are provided with Django-inlineedit: `markdown`, `ckeditor` and `ckeditor-implicit`. These clearly support markdown inputs and the CKEditor WYSIWYG editor. The latter version of the CKEditor adaptor supports the case where the CKEditor RichTextField model field is used. The former overwrite the widget with the CKEditor version and allows custom toolbars to be selected in the template tag
-
-To create a new adaptor create a class that derives from `inlineedit.adaptors.basic.BasicAdaptor` and re-implement its methods as required. most often you will want to rewrite `form_field` and/or `display_value`. These functions respectively return the form field and HTML reprentation of the editable field.
-
-Once your custome adaptor has been created, register it in the project settings file by defining the `INLINEEDIT_ADAPTORS` dictionary. for example:
+Once your custom adaptor has been created, register it in the project settings file by defining the `INLINEEDIT_ADAPTORS` dictionary. For example:
 
     INLINEEDIT_ADAPTORS = {
-        "custom-adaptor": "main.adaptors.ExampleCustomAdaptor",
+        "custom-adaptor": "my_project.my_app.MyCustomAdaptor",
     }
 
-Finally, you refer to the new adaptor by its `INLINEEDIT_ADAPTORS` key. for example:
+Finally, you enable a custom adaptor in the `inlineedit` template tag through its `INLINEEDIT_ADAPTORS` key. for example:
 
     {% inlineedit "my_object.my_custom_field" "custom-adaptor" %}
 
+Three custom adaptors are provided with Django-inlineedit: `markdown`, `ckeditor` and `ckeditor-implicit`. These adaptors support markdown input and the CKEditor WYSIWYG editor. The `implicit` version of the CKEditor adaptor supports the case where the RichTextField model field is used. The `ckeditor` version can work with a CharField or TextField as it overwrites the field widget with the CKEditor version. this version also accepts custom toolbars to be selected in the `inlineedit` template tag (see the examples).
 
-## Extra Arguments
-
-the inlineedit template tag can handle certain extra parameters
-
-| Parameter     | Options | Description |
-|---------------|---------|-------------|
-| template | 'inlineedit/default.html' (the default), 'inlineedit/fixed.html' or any other template of your choice | Chose template used to render inlineedit links and forms |
-
-Any other positional or named arguments are passed on to the adaptor constructor.
+These off-the-shelf adaptors are a good starting point when designing your own adaptors. You can also find additional adaptors (for example a bootstrap styled adaptor) in the examples.
 
 
 ### Access Control in Custom Adaptors
 
-You can control access to editing at adaptor level as well by overwriting `has_edit_perm(user)`. For example, the following will allow anyone to edit a particular field that is using `ExampleCustomAdaptor`:
+You can control edit access at adaptor level by overwriting the member function `has_edit_perm(user)`. For example, the following will allow anyone to edit a particular field that is using `ExampleCustomAdaptor`:
 
-    class ExampleCustomAdaptor:
+    class ExampleCustomAdaptor(adaptors.BasicAdaptor):
         def has_edit_perm(user):
             return True
+
+
+## Extra Arguments
+
+the inlineedit template full syntax is:
+
+    {% inlineedit <field> [adaptor] [positional arguments] [named arguments] %}
+
+Any positional and named arguments are passed to the adaptor constructor 
+
+The tag also handles certain extra parameters (a very small list for the time being!)
+
+| Parameter     | Options | Description |
+|---------------|---------|-------------|
+| template | 'inlineedit/default.html' (the default), 'inlineedit/fixed.html' or any other template of your choice | Chose template used to render inlineedit links and forms |
 
 
 ## Dependencies:
