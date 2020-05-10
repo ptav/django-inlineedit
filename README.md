@@ -88,13 +88,13 @@ You can control edit access at adaptor level by overwriting the member function 
 
 ## Extra Arguments
 
-the inlineedit template full syntax is:
+the `inlineedit` template tag full syntax is:
 
     {% inlineedit <field> [adaptor] [positional arguments] [named arguments] %}
 
 Any positional and named arguments are passed to the adaptor constructor 
 
-The tag also handles certain extra parameters (a very small list for the time being!)
+The tag also handles extra named parameters (a very small list for the time being!)
 
 | Parameter     | Options | Description |
 |---------------|---------|-------------|
