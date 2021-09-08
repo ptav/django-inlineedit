@@ -41,7 +41,7 @@ def inlineedit_form_submit(request: HttpRequest) -> JsonResponse:
     field = db_object._meta.get_field(field_name)
 
     adaptor_class = _get_adaptor_class_(adaptor)
-    inline_adaptor = adaptor_class(db_object, field)
+    inline_adaptor = adaptor_class(db_object, field, request.user)
 
     class _InlineeditForm(forms.Form):
         uuid = forms.fields.CharField(max_length=32, widget=forms.widgets.HiddenInput())
