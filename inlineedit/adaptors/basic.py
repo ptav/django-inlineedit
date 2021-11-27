@@ -66,7 +66,7 @@ class BasicAdaptor:
         elif isinstance(db, bool):
             display = format_html("&check;" if db else "&cross;")
         else:
-            display = db
+            display = db.__str__()
         
         return display
 
