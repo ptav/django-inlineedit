@@ -80,6 +80,8 @@ class BasicAdaptor:
                     reversion.set_user(self._user)
         else:
             self._model.save()
+            
+        self._model.refresh_from_db() # reload from DB
 
     def has_edit_perm(self, user):
         return __check_edit_access__(user, self._model, self._field)
