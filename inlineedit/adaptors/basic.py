@@ -1,6 +1,6 @@
 import logging
 from typing import Union, Optional
-from django.db.models import Model as DjangoModel, Field as DjangoField
+from django.db.models import Model as DjangoModel, Field as DjangoField, ManyToManyField
 from django.contrib.auth.models import User, AnonymousUser
 from django.utils.html import format_html
 from django.conf import settings
@@ -35,7 +35,12 @@ class BasicAdaptor:
         self._app = model_object._meta.app_label
         self._field = field
         self._user = user
-        
+
+        if isinstance(field, ManyToManyField):
+            self._many_to_many_field = True
+        else:
+            self._many_to_many_field = False
+
         if _reversion_installed:
             self._reversion_enabled = True
         else:
@@ -72,7 +77,13 @@ class BasicAdaptor:
 
     def save(self, value):
         "Save a new field value to the db. The default version supports django-reversions if that is enabled"
-        setattr(self._model, self._field.attname, value)
+        
+        if self._many_to_many_field:
+            attr = getattr(self._model, self._field.attname)
+            attr.set(value)
+        else:
+            setattr(self._model, self._field.attname, value)
+        
         if self._reversion_enabled:
             with reversion.create_revision():
                 self._model.save()
@@ -85,4 +96,3 @@ class BasicAdaptor:
 
     def has_edit_perm(self, user):
         return __check_edit_access__(user, self._model, self._field)
-
