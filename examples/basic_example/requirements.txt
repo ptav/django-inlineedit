@@ -1,7 +1,7 @@
 markdown==2.6.11
 feedparser==5.2.1
 
-Django==3.2.24
+Django==4.2.16
 django-reversion==3.0.4
 django-ckeditor==5.9.0
 
