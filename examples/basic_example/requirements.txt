@@ -1,10 +1,9 @@
-markdown==2.6.11
-feedparser==5.2.1
+Django==4.2
+django-reversion==5.0.8
+django-ckeditor==6.7.1
 
-Django==3.2.24
-django-reversion==3.0.4
-django-ckeditor==5.9.0
-
+markdown
+feedparser
 django-extensions
 pyreadline
 pylint

@@ -25,6 +25,10 @@ SECRET_KEY = '9w)v6+_s%sr7v!b)6267y0y)()mg$3xex7z#m_)u%ade2a%909'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# Define the default primary key field for all models
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
+# List of strings representing the host/domain names that this Django site can serve.
 ALLOWED_HOSTS = []
 
 

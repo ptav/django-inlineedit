@@ -47,6 +47,7 @@ coverage.xml
 # VS Code
 .vscode/
 *.code-workspace
+.venv
 
 # Rope
 .ropeproject
