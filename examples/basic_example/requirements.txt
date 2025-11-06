@@ -1,4 +1,4 @@
-Django==4.2.23
+Django==4.2.26
 django-reversion==5.0.8
 django-ckeditor==6.7.1
 
